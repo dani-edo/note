@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strings"
 
 	"example.com/note/note"
 )
@@ -26,9 +29,17 @@ func getNoteData() (string, string) {
 }
 
 func getUserInput(prompt string) string {
-	fmt.Print(prompt)
-	var value string
-	fmt.Scanln(&value)
+	fmt.Printf("%v ", prompt)
 
-	return value
+	reader := bufio.NewReader(os.Stdin)  // os.Stdin: OS standard input
+	text, err := reader.ReadString('\n') // \n: stop reading when enter is pressed
+
+	if err != nil {
+		return ""
+	}
+
+	text = strings.TrimSuffix(text, "\n") // remove \n from text (in the end of the string)
+	text = strings.TrimSuffix(text, "\r") // in case of Windows, the line break is \r\n
+
+	return text
 }

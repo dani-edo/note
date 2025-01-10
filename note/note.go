@@ -14,7 +14,7 @@ type Note struct {
 
 // func (receiver argument) methodName(argument) (return type, error)
 func (note Note) Display() {
-	fmt.Printf("Your note titled %v value has the following content: \n\n%v\n", note.title, note.content)
+	fmt.Printf("Your note titled %v value has the following content: \n\n%v\n\n", note.title, note.content)
 }
 
 func New(content, title string) (Note, error) {
