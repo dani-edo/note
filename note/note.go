@@ -1,20 +1,36 @@
 package note
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
+	"strings"
 	"time"
 )
 
 type Note struct {
-	title     string
-	content   string
-	createdAt time.Time
+	Title     string // capitalize first letter to be able to accessed by Marshal
+	Content   string
+	CreatedAt time.Time
 }
 
 // func (receiver argument) methodName(argument) (return type, error)
 func (note Note) Display() {
-	fmt.Printf("Your note titled %v value has the following content: \n\n%v\n\n", note.title, note.content)
+	fmt.Printf("Your note titled %v value has the following content: \n\n%v\n\n", note.Title, note.Content)
+}
+
+func (note Note) Save() error {
+	fileName := strings.ReplaceAll(note.Title, " ", "_") // replace spaces with _
+	fileName = strings.ToLower(fileName) + ".json"       // convert to lowercase
+
+	jsonText, err := json.Marshal(note) // convert struct to json
+
+	if err != nil {
+		return err
+	}
+
+	return os.WriteFile(fileName, jsonText, 0644) // 0644: editable by any owner only
 }
 
 func New(content, title string) (Note, error) {
@@ -23,8 +39,8 @@ func New(content, title string) (Note, error) {
 	}
 
 	return Note{
-		content:   content,
-		title:     title,
-		createdAt: time.Now(),
+		Content:   content,
+		Title:     title,
+		CreatedAt: time.Now(),
 	}, nil
 }
