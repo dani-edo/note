@@ -10,9 +10,9 @@ import (
 )
 
 type Note struct {
-	Title     string // capitalize first letter to be able to accessed by Marshal
-	Content   string
-	CreatedAt time.Time
+	Title     string    `json:"title"` // capitalize first letter to be able to accessed by Marshal
+	Content   string    `json:"content"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 // func (receiver argument) methodName(argument) (return type, error)
