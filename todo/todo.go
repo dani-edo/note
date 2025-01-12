@@ -13,7 +13,7 @@ type Todo struct {
 
 // func (receiver argument) methodName(argument) (return type, error)
 func (todo Todo) Display() {
-	fmt.Printf(todo.Text)
+	fmt.Printf("%v\n", todo.Text)
 }
 
 func (todo Todo) Save() error {

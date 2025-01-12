@@ -10,6 +10,10 @@ import (
 	"example.com/note/todo"
 )
 
+type saver interface { // type: syntax for declaring a new struct or interface
+	Save() error
+}
+
 func main() {
 	title, content := getNoteData()
 	todoText := getUserInput("Todo text: ")
@@ -29,22 +33,25 @@ func main() {
 	}
 
 	todo.Display()
-	err = todo.Save()
+	err = saveData(todo)
 	if err != nil {
-		fmt.Println("Saving todo failed:", err)
+		fmt.Println(err)
 		return
 	}
-
-	fmt.Println("Todo saved successfully")
 
 	userNote.Display()
-	err = userNote.Save()
+	saveData(userNote)
+}
+
+func saveData(data saver) error {
+	err := data.Save()
 	if err != nil {
-		fmt.Println("Saving note failed:", err)
-		return
+		fmt.Println("Saving data failed:", err)
+		return err
 	}
 
-	fmt.Println("Note saved successfully")
+	fmt.Println("Data saved successfully")
+	return nil
 }
 
 func getNoteData() (string, string) {
