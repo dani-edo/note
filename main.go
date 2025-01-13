@@ -14,6 +14,11 @@ type saver interface { // type: syntax for declaring a new struct or interface
 	Save() error
 }
 
+type outputable interface {
+	saver
+	Display()
+}
+
 func main() {
 	title, content := getNoteData()
 	todoText := getUserInput("Todo text: ")
@@ -32,15 +37,18 @@ func main() {
 		return
 	}
 
-	todo.Display()
-	err = saveData(todo)
+	err = outputData(todo)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
 
-	userNote.Display()
-	saveData(userNote)
+	outputData(userNote)
+}
+
+func outputData(data outputable) error {
+	data.Display()
+	return saveData(data)
 }
 
 func saveData(data saver) error {
