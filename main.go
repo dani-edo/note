@@ -21,6 +21,7 @@ type outputable interface {
 
 func main() {
 	printSomething(1)
+	printSomething(1.5)
 	printSomething("test")
 
 	title, content := getNoteData()
@@ -50,7 +51,14 @@ func main() {
 }
 
 func printSomething(value interface{}) {
-	fmt.Println(value)
+	switch value.(type) {
+	case int:
+		fmt.Println("integer: ", value)
+	case float64:
+		fmt.Println("float64: ", value)
+	case string:
+		fmt.Println("string: ", value)
+	}
 }
 
 func outputData(data outputable) error {
